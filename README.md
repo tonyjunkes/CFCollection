@@ -1,18 +1,13 @@
 # CFCollection
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 ## An array wrapper for functional programming
 
 [![Build Status](https://travis-ci.org/elpete/CFCollection.svg?branch=master)](https://travis-ci.org/elpete/CFCollection)
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/TQMfPZtDP7SHs7UgJVGg61uH/elpete/CFCollection'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/TQMfPZtDP7SHs7UgJVGg61uH/elpete/CFCollection.svg' />
-</a>
-
 ## WireBox Integration
 
 If your CFML engine supports static methods (Lucee 5+), WireBox will return a method
-with a static constructor and static macro support. 👍
+with a static constructor and static macro support.
 
 A few mappings are provided out-of-the-box:
 
@@ -405,15 +400,8 @@ collection.where( "species", "Human" );
 ```
 
 ### whereNot
-Shortcut for `reject`.  Accepts a `key` and `value` to apply to `reject`.
-`value` can be a single value, a list, or an array of values where the collection value can match any of the values provided.
-
-```cfc
-var collection = new models.Collection( [
-    { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
-    { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
-    { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
-    { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+Shortcut for `reject`.  Accepts a `[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+r", rank = "Captain", species = "Human" }
 ] );
 
 collection.whereNot( "species", "Human" );
@@ -589,7 +577,28 @@ collection.groupBy( "rank" );
 //     ]
 // }
 ```
+### groupByUnique
+Returns a struct similar to the groupBy() but different in that the values are expected to have a one-to-one relationship to the  key value. Items are therefore structs, not arrays of structs.
 
+The key can be the name of any property. The key values must be unique or it will throw an exception.
+
+```cfc
+var collection = new models.Collection( [
+    { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
+    { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
+    { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
+    { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+] );
+
+collection.groupByUnique( "id" );
+
+//{
+// 	"1" = { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
+// 	"2" = { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
+// 	"3" = { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
+// 	"4" = { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+//}
+```
 ### serialize
 Returns the underlying collection serialized to JSON.  Can limit the serialized properties to a passed in comma-separated list or array of keys.
 
@@ -931,14 +940,3 @@ collection.max();
 
 // 6
 ```
-
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars1.githubusercontent.com/u/2583646?v=4" width="100px;"/><br /><sub>Eric Peterson</sub>](https://github.com/elpete)<br />[💻](https://github.com/elpete/CFCollection/commits?author=elpete "Code") [📖](https://github.com/elpete/CFCollection/commits?author=elpete "Documentation") [⚠️](https://github.com/elpete/CFCollection/commits?author=elpete "Tests") | [<img src="https://avatars3.githubusercontent.com/u/5429198?v=4" width="100px;"/><br /><sub>Mike Burt</sub>](https://github.com/MikeBurt)<br />[💻](https://github.com/elpete/CFCollection/commits?author=MikeBurt "Code") | [<img src="https://avatars1.githubusercontent.com/u/3632399?v=4" width="100px;"/><br /><sub>Tony Junkes</sub>](http://tonyjunkes.com)<br />[💻](https://github.com/elpete/CFCollection/commits?author=tonyjunkes "Code") [⚠️](https://github.com/elpete/CFCollection/commits?author=tonyjunkes "Tests") |
-| :---: | :---: | :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

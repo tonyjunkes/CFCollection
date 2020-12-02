@@ -37,6 +37,7 @@ component extends="testbox.system.BaseSpec" {
 
                 var newCollection = new models.Collection( originalCollection );
 
+                debug( newCollection );
                 expect( newCollection ).toBe( originalCollection );
             } );
 
@@ -398,6 +399,39 @@ component extends="testbox.system.BaseSpec" {
                     var actual = collection.groupBy( "rank" );
 
                     expect( actual ).toBe( expected );
+                } );
+                it( "can group values by a given key and return a unique struct for each key", function() {
+                    var data = [
+                        { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
+                        { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
+                        { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
+                        { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+                    ];
+                    var expected = {
+                        "1" = { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
+                        "2" = { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
+                        "3" = { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
+                        "4" = { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+                    };
+
+                    var collection = new models.Collection( data );
+                    var actual = collection.groupByUnique( "id" );
+
+                    expect( actual ).toBe( expected );
+                } );
+                it( "can group values by a given key and unique or throw error", function() {
+                    var data = [
+                        { id = 1, name = "James T. Kirk", rank = "Captain", species = "Human" },
+                        { id = 2, name = "Spock", rank = "Commander", species = "Vulcan" },
+                        { id = 3, name = "Odo", rank = "Constable", species = "Changeling" },
+                        { id = 4, name = "Jonathan Archer", rank = "Captain", species = "Human" }
+                    ];
+
+                    var collection = new models.Collection( data );
+
+                    expect( function() {
+                                var actual = collection.groupByUnique("species" );
+                            }  ).toThrow( "KeyIsNotUnique" );
                 } );
             } );
 
@@ -1474,6 +1508,7 @@ component extends="testbox.system.BaseSpec" {
 
                     expect( result3 ).toBe( [ "Dwarf", "Human" ] );
                     expect( collection3.get() ).toBe( [ "Hobbit", "Elf", "Ent" ] );
+                    debug( collection3 );
                 } );
             } );
         } );
